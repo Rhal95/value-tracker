@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Value Tracker</title>
+        <style>
+            body{
+                display: grid;
+                grid-template:
+                    "input  menu"   auto
+                    "table  table"  1fr
+                    /auto   1fr;
+                form {grid-area: input;}
+                table {
+                    grid-area: table;
+                    td,th {text-align: start;}
+                }
+                menu{
+                    grid-area: menu;
+                    padding: 0;
+                    margin: 0;
+                    display: inline-block;
+                    li{list-style: none;display: contents;}
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <table id="valueTable">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Value</th>
+                    <th><abbr title="Difference">Diff</abbr></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <form id="valueForm" method="dialog">
+            <label for=valueInput>Value</label>
+            <input id="valueInput" type="number">
+            <input type="submit" value="Enter value">
+        </form>
+
+        <menu>
+            <li><button id="saveButton" type="button">Save to Local Storage</button></li>
+            <li><button id="loadButton" type="button">Load from Local Storage</button></li>
+        </menu>
+
+        <script type="module">
+            let tableBody = document.getElementById("valueTable").querySelector("tbody")
+            function getLastValue(){
+              return tableBody.querySelector("tr:last-child>td>data")?.value
+            }
+            function create(el, attributes, ...children){
+                const element = document.createElement(el)
+                if (attributes){
+                    for (const key in attributes) {
+                        element.setAttribute(key, attributes[key])
+                    }
+                }
+                if (children){
+                    for (const child of children) {
+                        element.appendChild(child)
+                    }
+                }
+                return element
+            }
+            function createRowWithValueAndTime(value, time){
+                const lastValue = getLastValue()
+                const rowToInsert = create("tr", null,
+                    create("td", null, create("time", {datetime: time.toISOString()}, document.createTextNode(time.toLocaleString()))),
+                    create("td", null, create("data", {value: value.toString()}, document.createTextNode(value.toString()))),
+                    create("td", null, document.createTextNode(lastValue!=null? value - Number(lastValue): '-'))
+                )
+                tableBody.appendChild(rowToInsert)
+            }
+            function createRowWithValue(value){
+                const now = new Date()
+                createRowWithValueAndTime(value, now)
+             }
+
+            document.getElementById("valueForm").onsubmit = function(ev){
+              ev.preventDefault();
+              ev.stopPropagation();
+              createRowWithValue(document.getElementById("valueInput").valueAsNumber)
+            }
+
+            document.getElementById("saveButton").onclick = function (){
+                console.log("saving to local storage")
+                const tableRows = Array.from(document.querySelectorAll("table#valueTable>tbody>tr").entries().map(([_, row])=>{
+                    const time = new Date(row.querySelector("td>time").dateTime)
+                    const value = Number(row.querySelector("td>data").value)
+                    return [time, value]
+                }))
+                console.log(tableRows)
+                localStorage.setItem("savedValues", JSON.stringify(tableRows));
+            }
+
+            document.getElementById("loadButton").onclick = function (){
+                console.log("loading from local storage")
+                const storedValues = localStorage.getItem("savedValues")
+                const tableRows = JSON.parse(storedValues)
+                const newTableBody = create("tbody")
+                tableBody.replaceWith(newTableBody)
+                tableBody = newTableBody
+                tableRows.forEach(([time, value])=>createRowWithValueAndTime(value, new Date(time)))
+            }
+        </script>
+    </body>
+</html>

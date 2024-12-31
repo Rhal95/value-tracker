@@ -2,40 +2,27 @@
 <html lang="en">
     <head>
         <title>Value Tracker</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <style>
             body{
                 display: grid;
-                grid-template:
-                    "input  menu"   auto
-                    "table  table"  1fr
-                    /auto   1fr;
-                form {grid-area: input;}
+                grid-auto-flow: row dense;
+                grid-gap: 15px;
                 table {
-                    grid-area: table;
+                    grid-column: span 2;
                     td,th {text-align: start;}
                 }
                 menu{
-                    grid-area: menu;
                     padding: 0;
                     margin: 0;
                     display: inline-block;
-                    li{list-style: none;display: contents;}
+                    &>li{list-style: none;display: contents;}
+                    &>li>*{margin: 5px;}
                 }
             }
         </style>
     </head>
     <body>
-        <table id="valueTable">
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Value</th>
-                    <th><abbr title="Difference">Diff</abbr></th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
         <form id="valueForm" method="dialog">
             <label for=valueInput>Value</label>
             <input id="valueInput" type="number">
@@ -46,6 +33,17 @@
             <li><button id="saveButton" type="button">Save to Local Storage</button></li>
             <li><button id="loadButton" type="button">Load from Local Storage</button></li>
         </menu>
+
+        <table id="valueTable">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Value</th>
+                    <th><abbr title="Difference">Diff</abbr></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
         <script type="module">
             let tableBody = document.getElementById("valueTable").querySelector("tbody")

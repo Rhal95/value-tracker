@@ -3,36 +3,33 @@
     <head>
         <title>Value Tracker</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <style>
-            body{
-                display: grid;
-                grid-auto-flow: row dense;
-                grid-gap: 15px;
-                table {
-                    grid-column: span 2;
-                    td,th {text-align: start;}
-                }
-                menu{
-                    padding: 0;
-                    margin: 0;
-                    display: inline-block;
-                    &>li{list-style: none;display: contents;}
-                    &>li>*{margin: 5px;}
-                }
-            }
-        </style>
+        <link href="./styles.css" rel="stylesheet">
     </head>
     <body>
+        <menu id="saveSlots">
+            <li><label for="slot1">&lt;empty&gt;</label><input id="slot1" type="radio" name="saveSlot" checked></li>
+            <li><label for="slot2">&lt;empty&gt;</label><input id="slot2" type="radio" name="saveSlot"></li>
+            <li><label for="slot3">&lt;empty&gt;</label><input id="slot3" type="radio" name="saveSlot"></li>
+            <li><label for="slot4">&lt;empty&gt;</label><input id="slot4" type="radio" name="saveSlot"></li>
+            <li><label for="slot5">&lt;empty&gt;</label><input id="slot5" type="radio" name="saveSlot"></li>
+            <li><label for="slot6">&lt;empty&gt;</label><input id="slot6" type="radio" name="saveSlot"></li>
+            <li><label for="slot7">&lt;empty&gt;</label><input id="slot7" type="radio" name="saveSlot"></li>
+            <li><label for="slot8">&lt;empty&gt;</label><input id="slot8" type="radio" name="saveSlot"></li>
+            <li><label for="slot9">&lt;empty&gt;</label><input id="slot9" type="radio" name="saveSlot"></li>
+            <li><label for="slot10">&lt;empty&gt;</label><input id="slot10" type="radio" name="saveSlot"></li>
+        </menu>
+
+        <form id="slotForm" method="dialog">
+            <label for=slotName>Save Name</label>
+            <input id="slotName" type="text" placeholder="1">
+            <input type="submit" value="Change Name">
+        </form>
+
         <form id="valueForm" method="dialog">
             <label for=valueInput>Value</label>
             <input id="valueInput" type="number">
             <input type="submit" value="Enter value">
         </form>
-
-        <menu>
-            <li><button id="saveButton" type="button">Save to Local Storage</button></li>
-            <li><button id="loadButton" type="button">Load from Local Storage</button></li>
-        </menu>
 
         <table id="valueTable">
             <thead>
@@ -44,66 +41,9 @@
             </thead>
             <tbody></tbody>
         </table>
-
-        <script type="module">
-            let tableBody = document.getElementById("valueTable").querySelector("tbody")
-            function getLastValue(){
-              return tableBody.querySelector("tr:last-child>td>data")?.value
-            }
-            function create(el, attributes, ...children){
-                const element = document.createElement(el)
-                if (attributes){
-                    for (const key in attributes) {
-                        element.setAttribute(key, attributes[key])
-                    }
-                }
-                if (children){
-                    for (const child of children) {
-                        element.appendChild(child)
-                    }
-                }
-                return element
-            }
-            function createRowWithValueAndTime(value, time){
-                const lastValue = getLastValue()
-                const rowToInsert = create("tr", null,
-                    create("td", null, create("time", {datetime: time.toISOString()}, document.createTextNode(time.toLocaleString()))),
-                    create("td", null, create("data", {value: value.toString()}, document.createTextNode(value.toString()))),
-                    create("td", null, document.createTextNode(lastValue!=null? value - Number(lastValue): '-'))
-                )
-                tableBody.appendChild(rowToInsert)
-            }
-            function createRowWithValue(value){
-                const now = new Date()
-                createRowWithValueAndTime(value, now)
-             }
-
-            document.getElementById("valueForm").onsubmit = function(ev){
-              ev.preventDefault();
-              ev.stopPropagation();
-              createRowWithValue(document.getElementById("valueInput").valueAsNumber)
-            }
-
-            document.getElementById("saveButton").onclick = function (){
-                console.log("saving to local storage")
-                const tableRows = Array.from(document.querySelectorAll("table#valueTable>tbody>tr").entries().map(([_, row])=>{
-                    const time = new Date(row.querySelector("td>time").dateTime)
-                    const value = Number(row.querySelector("td>data").value)
-                    return [time, value]
-                }))
-                console.log(tableRows)
-                localStorage.setItem("savedValues", JSON.stringify(tableRows));
-            }
-
-            document.getElementById("loadButton").onclick = function (){
-                console.log("loading from local storage")
-                const storedValues = localStorage.getItem("savedValues")
-                const tableRows = JSON.parse(storedValues)
-                const newTableBody = create("tbody")
-                tableBody.replaceWith(newTableBody)
-                tableBody = newTableBody
-                tableRows.forEach(([time, value])=>createRowWithValueAndTime(value, new Date(time)))
-            }
-        </script>
+        <menu id="bottomMenu">
+            <li><a id="downloadButton">Download as SVG</a> </li>
+        </menu>
+        <script type="module" src="./script.js"></script>
     </body>
 </html>

@@ -1,49 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Value Tracker</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <link href="./styles.css" rel="stylesheet">
-    </head>
-    <body>
-        <menu id="saveSlots">
-            <li><label for="slot1">&lt;empty&gt;</label><input id="slot1" type="radio" name="saveSlot" checked></li>
-            <li><label for="slot2">&lt;empty&gt;</label><input id="slot2" type="radio" name="saveSlot"></li>
-            <li><label for="slot3">&lt;empty&gt;</label><input id="slot3" type="radio" name="saveSlot"></li>
-            <li><label for="slot4">&lt;empty&gt;</label><input id="slot4" type="radio" name="saveSlot"></li>
-            <li><label for="slot5">&lt;empty&gt;</label><input id="slot5" type="radio" name="saveSlot"></li>
-            <li><label for="slot6">&lt;empty&gt;</label><input id="slot6" type="radio" name="saveSlot"></li>
-            <li><label for="slot7">&lt;empty&gt;</label><input id="slot7" type="radio" name="saveSlot"></li>
-            <li><label for="slot8">&lt;empty&gt;</label><input id="slot8" type="radio" name="saveSlot"></li>
-            <li><label for="slot9">&lt;empty&gt;</label><input id="slot9" type="radio" name="saveSlot"></li>
-            <li><label for="slot10">&lt;empty&gt;</label><input id="slot10" type="radio" name="saveSlot"></li>
-        </menu>
+  <head>
+    <title>Value Tracker</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    >
+    <link href="./styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <menu id="saveSlots">
+      <li>
+        <label for="slot1">&lt;empty&gt;</label><input
+          id="slot1"
+          type="radio"
+          name="saveSlot"
+          checked
+        >
+      </li>
+      <li>
+        <label for="slot2">&lt;empty&gt;</label><input
+          id="slot2"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+      <li>
+        <label for="slot3">&lt;empty&gt;</label><input
+          id="slot3"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+      <li>
+        <label for="slot4">&lt;empty&gt;</label><input
+          id="slot4"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+      <li>
+        <label for="slot5">&lt;empty&gt;</label><input
+          id="slot5"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+      <li>
+        <label for="slot6">&lt;empty&gt;</label><input
+          id="slot6"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+      <li>
+        <label for="slot7">&lt;empty&gt;</label><input
+          id="slot7"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+      <li>
+        <label for="slot8">&lt;empty&gt;</label><input
+          id="slot8"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+      <li>
+        <label for="slot9">&lt;empty&gt;</label><input
+          id="slot9"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+      <li>
+        <label for="slot10">&lt;empty&gt;</label><input
+          id="slot10"
+          type="radio"
+          name="saveSlot"
+        >
+      </li>
+    </menu>
 
-        <form id="slotForm" method="dialog">
-            <label for=slotName>Save Name</label>
-            <input id="slotName" type="text" placeholder="1">
-            <input type="submit" value="Change Name">
-        </form>
+    <form id="slotForm" method="dialog">
+      <label for="slotName">Save Name</label>
+      <input id="slotName" type="text" placeholder="1">
+      <input type="submit" value="Change Name">
+    </form>
 
-        <form id="valueForm" method="dialog">
-            <label for=valueInput>Value</label>
-            <input id="valueInput" type="number">
-            <input type="submit" value="Enter value">
-        </form>
+    <form id="valueForm" method="dialog">
+      <label for="valueInput">Value</label>
+      <input id="valueInput" type="number">
+      <input type="submit" value="Enter value">
+    </form>
 
-        <table id="valueTable">
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Value</th>
-                    <th><abbr title="Difference">Diff</abbr></th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <menu id="bottomMenu">
-            <li><a id="downloadButton">Download as SVG</a> </li>
-        </menu>
-        <script type="module" src="./script.js"></script>
-    </body>
+    <table id="valueTable">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Value</th>
+          <th><abbr title="Difference">Diff</abbr></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <menu id="bottomMenu">
+      <li><a id="downloadButton">Download as SVG</a></li>
+    </menu>
+    <script type="module" src="./script.js"></script>
+  </body>
 </html>
